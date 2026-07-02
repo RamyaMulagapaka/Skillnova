@@ -103,7 +103,7 @@ export function getClientIp(req) {
 }
 
 export function getUserAgent(req) {
-  return req.headers['user-agent'] || 'unknown';
+  return (req.headers['user-agent'] || 'unknown').slice(0, 250);
 }
 
 // ── Touch session activity (lightweight rate-limit per user) ──
