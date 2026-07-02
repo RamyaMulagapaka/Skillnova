@@ -7,7 +7,10 @@ const missing = required.filter((k) => !process.env[k]);
 
 if (missing.length) {
   if (isProd) {
-    console.error(`[config] Missing required env var(s): ${missing.join(', ')}`);
+    console.error('\n[config] FATAL: Missing required environment variable(s):');
+    missing.forEach((k) => console.error(`  - ${k}`));
+    console.error('\nCopy server/.env.example to server/.env and fill in real values.');
+    console.error('Generate secrets with: node -e "console.log(require(\'crypto\').randomBytes(48).toString(\'base64url\'))"\n');
     process.exit(1);
   }
   // Dev / test: warn loudly and substitute placeholders so unit tests can
@@ -15,6 +18,26 @@ if (missing.length) {
   console.warn(`[config] Missing env var(s) substituted with random placeholders: ${missing.join(', ')}`);
   for (const k of missing) {
     process.env[k] = `dev-${k.toLowerCase()}-${crypto.randomBytes(12).toString('hex')}`;
+  }
+}
+
+// Validate DATABASE_URL format
+if (process.env.DATABASE_URL && !process.env.DATABASE_URL.startsWith('postgres://') && !process.env.DATABASE_URL.startsWith('postgresql://')) {
+  if (isProd) {
+    console.error('[config] FATAL: DATABASE_URL must start with postgres:// or postgresql://');
+    process.exit(1);
+  }
+  console.warn('[config] WARNING: DATABASE_URL should start with postgres:// or postgresql://');
+}
+
+// Warn about weak secrets in dev
+if (!isProd) {
+  const weakSecrets = required.filter((k) => {
+    const v = process.env[k];
+    return v && v.length < 32;
+  });
+  if (weakSecrets.length) {
+    console.warn(`[config] WARNING: Short secret(s) (< 32 chars): ${weakSecrets.join(', ')}. OK for dev, not for production.`);
   }
 }
 

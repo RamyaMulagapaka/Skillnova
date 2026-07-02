@@ -112,10 +112,10 @@ const Login = () => {
     }
   };
 
-  const emailState = touched.email
+  const emailState = touched.email && !formError
     ? (fieldError.email ? 'error' : email ? 'success' : '')
     : '';
-  const pwdState = touched.password
+  const pwdState = touched.password && !formError
     ? (fieldError.password ? 'error' : password ? 'success' : '')
     : '';
 

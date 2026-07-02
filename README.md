@@ -111,6 +111,8 @@ skillnova/
 - Optional: an Upstash Redis REST URL and token
 - Optional: a Groq API key for the AI assistant
 
+> **Windows users:** Use [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/install) or [Git Bash](https://git-scm.com/downloads/win) to run shell commands. All subsequent commands assume a POSIX-compatible shell.
+
 ### Bootstrap
 
 ```bash

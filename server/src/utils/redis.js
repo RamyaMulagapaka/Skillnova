@@ -83,12 +83,12 @@ export const memoryStore = {
 
 export async function connectRedis() {
   if (!config.redis.url) {
-    logger.warn('⚠️  Redis not configured — using in-memory store');
+    logger.warn('Redis not configured (UPSTASH_REDIS_REST_URL not set) — using in-memory store. Data will NOT persist across restarts.');
     return;
   }
   const pong = await redis.ping();
-  if (pong === 'PONG') logger.info('✅  Redis connected');
-  else logger.warn('⚠️  Redis ping returned unexpected result, continuing with in-memory fallback');
+  if (pong === 'PONG') logger.info('Redis connected');
+  else logger.warn('Redis ping returned unexpected result — using in-memory fallback. Data will NOT persist across restarts.');
 }
 
 export default redis;
