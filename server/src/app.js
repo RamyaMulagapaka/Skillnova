@@ -19,6 +19,7 @@ import userRoutes from './routes/users.routes.js';
 import apiRoutes from './routes/api.routes.js';
 import kbRoutes from './routes/kb.routes.js';
 import featuresRoutes, { publicApi as publicFeaturesRoutes } from './routes/features.routes.js';
+import skillGapRoutes from './routes/skillGap.routes.js';
 import { etagMiddleware } from './utils/cache.js';
 import { requestId } from './middleware/requestId.js';
 
@@ -131,6 +132,7 @@ app.use('/api/v1', publicFeaturesRoutes);
 app.use('/api/v1', featuresRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/kb', kbRoutes);
+app.use('/api/v1/skill-gap', skillGapRoutes);
 app.use('/api/v1', csrfProtection, apiRoutes);
 
 // ── 404 ────────────────────────────────────────────────────
