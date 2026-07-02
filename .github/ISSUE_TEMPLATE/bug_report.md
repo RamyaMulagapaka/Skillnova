@@ -37,6 +37,12 @@ If applicable, add screenshots to help explain the problem.
 - **SkillNova version/commit**: [e.g., v1.0.0 or commit hash]
 - **Role**: [e.g., SUPER_ADMIN, ADMIN, MENTOR, INTERN]
 
+## Logs / Console Output
+
+```
+Paste any relevant log output or console errors here.
+```
+
 ## Additional Context
 
-Add any other context about the problem here (e.g., console errors, network logs).
+Add any other context about the problem here (e.g., related issues, workarounds attempted).

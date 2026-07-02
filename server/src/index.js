@@ -31,6 +31,11 @@ async function bootstrap() {
     logger.info(`🚀  SkillNova API listening on http://localhost:${config.port} (${config.env})`);
     logger.info(`📚  Health: http://localhost:${config.port}/healthz`);
     logger.info(`🔐  Auth:   http://localhost:${config.port}/api/v1/auth/login`);
+
+    setInterval(() => {
+      const mem = process.memoryUsage();
+      logger.debug({ rss: Math.round(mem.rss / 1024 / 1024) + 'MB', heap: Math.round(mem.heapUsed / 1024 / 1024) + 'MB' }, 'process:memory');
+    }, 60_000).unref();
   });
 
   // Graceful shutdown
