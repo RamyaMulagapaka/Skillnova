@@ -35,6 +35,28 @@ const Sidebar = ({ active, onNavigate, forceMobileExpanded }) => {
   const isCollapsed = forceMobileExpanded ? false : collapsed;
   const logout = useAuthStore((s) => s.logout);
 
+  const navRef = require ? undefined : undefined;
+
+  const handleKeyDown = (e, index) => {
+    const menuItems = MENU.map((_, i) => `menu-${i}`);
+    let nextIndex = index;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      nextIndex = (index + 1) % MENU.length;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      nextIndex = (index - 1 + MENU.length) % MENU.length;
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onNavigate(MENU[index].id);
+      return;
+    } else {
+      return;
+    }
+    const buttons = e.currentTarget.parentElement?.querySelectorAll('button');
+    if (buttons?.[nextIndex]) buttons[nextIndex].focus();
+  };
+
   return (
     <aside
       className={`h-screen flex flex-col flex-shrink-0 transition-all duration-300 ${isCollapsed ? 'w-16' : 'w-60'}`}

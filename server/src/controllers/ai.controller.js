@@ -98,6 +98,8 @@ export const streamChat = asyncHandler(async (req, res) => {
   res.flushHeaders?.();
 
   let full = '';
+  const streamController = new AbortController();
+  const streamTimeout = setTimeout(() => streamController.abort(), 30_000);
   try {
     for await (const chunk of chatCompletionStream({ user: req.user, history, userMessage: message })) {
       full += chunk;
@@ -110,6 +112,7 @@ export const streamChat = asyncHandler(async (req, res) => {
   } catch (err) {
     res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
   } finally {
+    clearTimeout(streamTimeout);
     res.end();
   }
 });
