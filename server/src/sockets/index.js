@@ -46,6 +46,16 @@ export function createSocketServer(httpServer) {
   });
 
   io.on('connection', (socket) => {
+    const clientIp = socket.handshake.headers['x-forwarded-for']?.split(',')[0]?.trim() || socket.handshake.address;
+    const count = (connectionsPerIp.get(clientIp) || 0) + 1;
+    if (count > MAX_CONNECTIONS_PER_IP) {
+      connectionsPerIp.set(clientIp, count);
+      logger.warn({ clientIp, count }, 'socket:rate-limited');
+      socket.disconnect(true);
+      return;
+    }
+    connectionsPerIp.set(clientIp, count);
+
     const { sub, role } = socket.data.user || {};
     if (sub) {
       socket.join(`user:${sub}`);
@@ -68,6 +78,9 @@ export function createSocketServer(httpServer) {
     socket.on('ping', (cb) => cb?.('pong'));
 
     socket.on('disconnect', (reason) => {
+      const c = (connectionsPerIp.get(clientIp) || 1) - 1;
+      if (c <= 0) connectionsPerIp.delete(clientIp);
+      else connectionsPerIp.set(clientIp, c);
       logger.debug({ sub, reason }, 'socket:disconnect');
     });
   });

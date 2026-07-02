@@ -15,4 +15,14 @@ export const APP_CONSTANTS = {
   QA_CATEGORIES: ['All', 'Projects', 'Reports', 'Meetings', 'Knowledge Base', 'Internship'],
   SOCKET_RECONNECT_DELAY: 1000,
   SOCKET_RECONNECT_DELAY_MAX: 10000,
+  TOAST_POSITION: 'top-right',
+  TOAST_STYLE: {
+    background: 'var(--card)',
+    color: 'var(--text)',
+    border: '1px solid var(--border)',
+    borderRadius: '12px',
+    fontSize: '14px',
+    padding: '10px 14px',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+  },
 };
