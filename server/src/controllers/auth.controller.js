@@ -268,7 +268,6 @@ export const refresh = asyncHandler(async (req, res) => {
     throw ApiError.unauthorized('Invalid refresh token');
   }
 
-  const tokenHash = hashToken(token);
   const stored = await prisma.refreshToken.findUnique({ where: { tokenHash } });
   if (!stored || stored.revokedAt || stored.expiresAt < new Date()) {
     throw ApiError.unauthorized('Refresh token revoked or expired');
@@ -285,6 +284,8 @@ export const refresh = asyncHandler(async (req, res) => {
   });
 
   const { accessToken, refreshToken: newRefresh } = issueTokens(res, user, req);
+  recentlyRefreshed.add(tokenHash);
+  setTimeout(() => recentlyRefreshed.delete(tokenHash), REFRESH_DEDUP_TTL);
   await audit({ userId: user.id, action: 'auth.refresh', req });
 
   res.json({ user: sanitize(user), accessToken, refreshToken: newRefresh });
