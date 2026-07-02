@@ -119,10 +119,15 @@ app.get('/healthz/live', (_req, res) => {
 // Suitable as a kubelet readinessProbe; returns 503 when degraded so the
 // load balancer drains traffic until the dependency recovers.
 app.get('/healthz/ready', async (_req, res) => {
-  const checks = { db: false, redis: false };
+  const checks = { db: false, redis: false, pool: { idle: 0, active: 0 } };
   try {
     await prisma.$queryRaw`SELECT 1`;
     checks.db = true;
+    const pool = prisma.$pool;
+    if (pool) {
+      checks.pool.idle = pool.idleCount || 0;
+      checks.pool.active = pool.activeCount || 0;
+    }
   } catch { /* leave false */ }
   try {
     const pong = await redis.ping();
@@ -185,6 +190,11 @@ app.use((err, req, res, _next) => {
   // Body parse error
   if (err.type === 'entity.parse.failed') {
     return res.status(400).json({ error: 'Invalid JSON body' });
+  }
+
+  // Request body too large
+  if (err.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Request body too large' });
   }
 
   // Unknown
