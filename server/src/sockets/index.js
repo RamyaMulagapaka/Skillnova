@@ -8,6 +8,8 @@ import { config } from '../config/index.js';
 import { logger } from '../utils/logger.js';
 
 let io = null;
+const MAX_CONNECTIONS_PER_IP = 10;
+const connectionsPerIp = new Map();
 
 export function createSocketServer(httpServer) {
   io = new Server(httpServer, {

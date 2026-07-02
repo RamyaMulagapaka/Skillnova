@@ -110,8 +110,6 @@ const Dashboard = ({ onNavigate }) => {
       </div>
 
       <div className="grid grid-cols-1 min-[640px]:grid-cols-2 gap-3 sm:gap-4">
-
-      <div className="grid grid-cols-1 min-[640px]:grid-cols-2 gap-4">
         <Card className="p-5">
           <h3 className="text-sm font-semibold mb-4" style={{ color: 'var(--text)' }}>My Tasks by Status</h3>
           {myTasksByStatus.length === 0 ? (
