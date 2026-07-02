@@ -11,6 +11,16 @@ import { logger } from './utils/logger.js';
 
 async function bootstrap() {
   await connectDB();
+
+  // Verify database schema is up to date
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    logger.info('✅  Database connection verified');
+  } catch (err) {
+    logger.fatal({ err }, 'Database schema check failed — run prisma migrate');
+    process.exit(1);
+  }
+
   await connectRedis();
 
   const httpServer = http.createServer(app);
