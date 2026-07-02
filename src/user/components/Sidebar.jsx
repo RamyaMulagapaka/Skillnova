@@ -35,10 +35,7 @@ const Sidebar = ({ active, onNavigate, forceMobileExpanded }) => {
   const isCollapsed = forceMobileExpanded ? false : collapsed;
   const logout = useAuthStore((s) => s.logout);
 
-  const navRef = require ? undefined : undefined;
-
   const handleKeyDown = (e, index) => {
-    const menuItems = MENU.map((_, i) => `menu-${i}`);
     let nextIndex = index;
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -77,14 +74,17 @@ const Sidebar = ({ active, onNavigate, forceMobileExpanded }) => {
         )}
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5 no-scrollbar">
-        {MENU.map((item) => {
+      <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5 no-scrollbar" role="navigation" aria-label="Main menu">
+        {MENU.map((item, index) => {
           const Icon = item.icon;
           const isActive = active === item.id;
           return (
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              tabIndex={0}
+              role="menuitem"
               title={isCollapsed ? item.label : undefined}
               className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all relative group"
               style={{

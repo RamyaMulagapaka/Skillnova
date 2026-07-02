@@ -7,6 +7,7 @@
 // ════════════════════════════════════════════════════════════
 import { redis } from './redis.js';
 import { lru } from './lru.js';
+import { size } from './lru.js';
 
 // L2 (distributed) fallback for when LRU is cold — short TTL only,
 // used to backfill LRU without blocking on Redis on the hot path.
