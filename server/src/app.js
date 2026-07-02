@@ -51,7 +51,12 @@ app.use(
 );
 
 // Gzip
-app.use(compression());
+app.use(compression({
+  filter: (req, res) => {
+    if (req.headers['x-no-compression']) return false;
+    return compression.filter(req, res);
+  },
+}));
 
 // CORS — explicit allow-list
 app.use(

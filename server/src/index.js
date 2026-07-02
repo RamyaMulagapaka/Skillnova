@@ -5,6 +5,7 @@ import http from 'node:http';
 import { config } from './config/index.js';
 import app from './app.js';
 import { connectDB, disconnectDB } from './utils/prisma.js';
+import prisma from './utils/prisma.js';
 import { connectRedis, redis } from './utils/redis.js';
 import { createSocketServer } from './sockets/index.js';
 import { logger } from './utils/logger.js';
