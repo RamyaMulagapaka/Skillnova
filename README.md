@@ -4,7 +4,6 @@
 
 [![CI](https://github.com/rajat-wyrm/Skillnova/actions/workflows/ci.yml/badge.svg)](https://github.com/rajat-wyrm/Skillnova/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js](https://img.shields.io/badge/Node.js-20 LTS-green.svg?logo=node.js)](https://nodejs.org/)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![GitHub stars](https://img.shields.io/github/stars/rajat-wyrm/Skillnova?style=social)](https://github.com/rajat-wyrm/Skillnova/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/rajat-wyrm/Skillnova?style=social)](https://github.com/rajat-wyrm/Skillnova/network/members)
